@@ -449,10 +449,12 @@
 ```
 
 # Registers
+https://scadahacker.com/library/Documents/Cheat_Sheets/Programming%20-%20x86%20Instructions%201.pdf
+
 //EAX will get filled by return value
 EAX <foo>
 EBX fd
 ECX buf
 EDX count
 
-#
+# pwn.college - Assembly Refresher - Computer Architecture
