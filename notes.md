@@ -457,23 +457,60 @@ EBX fd
 ECX buf
 EDX count
 
-# pwn.college Module 0: Introduction and Fundamentals
-
-## Introduction: What is Computer Systems Security
-
-## pwn.college - Assembly Refresher - Computer Architecture
-
-## pwn.college - Program Interaction - Binary Files
+# pwn.college Module 0: Introduction
 
 ELF (Executable and Linkable Format) contains the program and its data.
 Describes how the program should be loaded (program/segment headers)
 Contains metadata describing program components (section headers)
 
 Program headers specify info needed to prepare the program for execution. These are *the* source of info used when loading a file. Most important entry types:
-INTERP: defines the library that should be used to load this ELF into memory
-LOAD: defines a part of the file that should be loaded into memory
+INTERP:     defines the library that should be used to load this ELF into memory
+LOAD        defines a part of the file that should be loaded into memory
 
-Magic:  74 **45 4c 46** (spells 'e l f' in ASCII)
+Magic:      74 **45 4c 46** (spells 'e l f' in ASCII)
 Entry point address: execution will start after this gets loaded here
 
-## pwn.college - Assembly Refresher - Assembly
+### ELF Section Headers
+.text:      the executable code of your program
+.plt:       used to resolve and dispatch library calls
+.got:       used to resolve and dispatch library calls
+.data:      used for pre-initialized global writable data (such as global arrays with initial values)
+.rodata:    used for global read-only data (such as string constants)
+.bss:       used for uninitialized global writable data (such as global arrays without initial values)
+
+Section headers are *not* a necessary part of the ELF: only segments (defined via program headers) are needed for loading and operation! **Section headers are just metadata.**
+
+### Symbols
+Binaries (and libraries) that use dynamically loaded libraries rely symbols(names) to find libraries, resolve function calls into those libraries, etc. ***They're names basically***
+https://www.intezer.com/blog/research/executable-linkable-format-101-part1-sections-segments/
+https://www.intezer.com/blog/malware-analysis/executable-linkable-format-101-part-2-symbols/
+
+## pwn.college Module 1: Program Interaction
+
+
+
+## pwn.college Module 2: Program Misuse
+
+## pwn.college Module 3: Assembly Refresher
+
+## pwn.college Module 4: Shellcoding
+
+## pwn.college Module 5: Sandboxing
+
+## pwn.college Module 6: Debugging Refresher
+
+## pwn.college Module 7: Binary Reverse Engineering
+
+## pwn.college Module 8: Memory Errors
+
+## pwn.college Module 9: Exploitation
+
+## pwn.college Module A: Return Oriented Programming
+
+## pwn.college Module B: Dynamic Allocator Misuse
+
+## pwn.college Module C: Race Conditions
+
+## pwn.college Module D: Kernel Security
+
+## pwn.college Module E: Advanced Exploitation
