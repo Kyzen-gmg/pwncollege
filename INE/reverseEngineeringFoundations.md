@@ -111,6 +111,10 @@ https://docs.microsoft.com/en-us/previous-versions//cc767886(v=technet.10)?redir
 
 
 # The Necessary Theory: Part 2 - Study Guide
+PUSH - places data on TOS
+POP - removes value from TOS
+
+#
 
 #
 
