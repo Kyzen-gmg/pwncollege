@@ -111,8 +111,35 @@ https://docs.microsoft.com/en-us/previous-versions//cc767886(v=technet.10)?redir
 
 
 # The Necessary Theory: Part 2 - Study Guide
-PUSH - places data on TOS
-POP - removes value from TOS
+PUSH        - places data on TOS
+POP         - removes value from TOS
+CALL        - the processor pushes the RIP onto the stacks and loads the address of the entry point of the function in the EIP regsiter
+RET         - Instruction that exits from a func
+            When a RET instruction is executed, the processor pops the address from TOS to the EIP register and resumes execution from the next inr
+
+## Function prologue
+Every time we enter a function, a stack frame for this function is created through the function prologue. A func prologue is a set of instructions for which the purpose is to allocate the necessary memory area for the specific function inside the stack, and it is the first thing done every time we enter a function.
+
+## Function epilogue
+//clean up the mess from the war. Frees the memory allocade for this stack frame and restore the values of ESP and EBP registers.
+
+## Calling Conventions
+Most well-known are:
+__cdecl
+__stdcall
+__fastcall
+
+# The Necessary Theory: Part 3 - Study Guide
+
+## Heaps
+
+## Handles
+
+## Exceptions
+
+
+
+
 
 #
 
