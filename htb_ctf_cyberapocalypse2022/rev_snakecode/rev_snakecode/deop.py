@@ -1,0 +1,15 @@
+from deopy import Deopy
+import logging
+# tells you more information like how many times it was deobfuscated
+logging.basicConfig(level=logging.INFO)
+# The obfusated code. needs to be a string
+data = """
+import marshal as m
+data = m.loads(b'\xe3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00@\x00\x00\x00s\x1a\x00\x00\x00e\x00d\x00\x83\x01D\x00]\x0cZ\x01e\x02e\x01\x83\x01\x01\x00q\x08d\x01S\x00)\x02\xe9d\x00\x00\x00N)\x03\xda\x05range\xda\x01i\xda\x05print\xa9\x00r\x05\x00\x00\x00r\x05\x00\x00\x00\xda\x06string\xda\x08<module>\x01\x00\x00\x00s\x02\x00\x00\x00\x0c\x01')
+exec(data)
+"""
+# instantiate the class
+d = Deopy(verbose=True)
+# We know that the technique that is used was marshal.
+# so we can call it directly
+print(d.decrypt_marshal(data))
