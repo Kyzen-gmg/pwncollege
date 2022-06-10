@@ -104,8 +104,47 @@ AND MASK1, 128 ; Perform AND operation on the
 ADD MARKS, 10 ; Add 10 to the variable MARKS
 MOV AL, 10 ; Transfer the value 10 to the AL register
 ```
+Compiling and Linking an Assembly Program in NASM
+Make sure you have set the path of nasm and ld binaries in your PATH environment variable. Now, take the following steps for compiling and linking the above program −
 
-#
+Type the above code using a text editor and save it as hello.asm.
+
+Make sure that you are in the same directory as where you saved hello.asm.
+
+To assemble the program, type nasm -f elf hello.asm
+
+If there is any error, you will be prompted about that at this stage. Otherwise, an object file of your program named hello.o will be created.
+
+To link the object file and create an executable file named hello, type ld -m elf_i386 -s -o hello hello.o
+
+Execute the program by typing ./hello
+
+If you have done everything correctly, it will display 'Hello, world!' on the screen.
+
+# Memory Segments
+We have already discussed the three sections of an assembly program. These sections represent various memory segments as well.
+
+Interestingly, if you replace the section keyword with segment, you will get the same result. Try the following code −
+```
+segment .text           ;code segment
+    global _start       ;must be declared for linker
+
+_start:                 ;tell linker entry point
+    mov edx,len         ;message length
+    mov ecx,msg         ;message to write
+    mov ebx,1           ;file descriptor (stdout)
+    mov eax,4           ;syscall number (sys_write)
+    int 0x80            ;call kernel
+
+    mov eax,1           ;syscall number (sys_exit)
+    int 0x80            ;call kernel
+
+sgement .data           ;data segment
+msg db 'Hello, world!',0xa      ;our dear string
+len equ $ - msg         ;length of our dear string
+```
+
+
 
 #
 
