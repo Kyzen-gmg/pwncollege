@@ -33,6 +33,7 @@ https://www.learn-c.org/en/Variables_and_Types
 
 https://niiconsulting.com/checkmate/2018/05/reverse-engineering-for-beginners-xor-encryption-windows-x64/
 https://blog.devaviary.com/posts/cert-review/my-ecxd-review-tips.html
+
 ## CS
 http://www.csc.villanova.edu/~mdamian/Past/csc2400fa13/index.html
 
