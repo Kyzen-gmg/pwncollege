@@ -1,4 +1,10 @@
 # ToDo
+"I hear and I forget.
+I see and I remember.
+I do and I understand." - Confucius
+
+
+
 ## HackadayU
 //calling conventions
 https://sensepost.com/blogstatic/2014/01/SensePost_crash_course_in_x86_assembly-.pdf

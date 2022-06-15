@@ -143,10 +143,204 @@ sgement .data           ;data segment
 msg db 'Hello, world!',0xa      ;our dear string
 len equ $ - msg         ;length of our dear string
 ```
+## Memory Segments
+A segmented memory model divides the system memory into groups of independent segments referenced by pointers located in the segment registers. Each segment is used to contain a specific type of data. One segment is used to contain instruction codes, another segment stores the data elements, and a third segment keeps the program stack.
 
+In the light of the above discussion, we can specify various memory segments as −
 
+**Data segment** − It is represented by **.data** section and the **.bss.**  
+The .data section is used to declare the memory region, where data elements are stored for the program. ***This section cannot be expanded after the data elements are declared, and it remains static throughout the program.***
 
-#
+The .bss section is also a static memory section that contains buffers for data to be declared later in the program. This buffer memory is zero-filled.
+
+**Code segment** − It is represented by **.text** section. This defines an area in memory that stores the instruction codes. This is also a fixed area.
+
+**Stack** − This segment contains data values passed to functions and procedures within the program.
+
+# Registers
+Processor operations mostly involve processing data. This data can be stored in memory and accessed from thereon. However, reading data from and storing data into memory slows down the processor, as it involves complicated processes of sending the data request across the control bus and into the memory storage unit and getting the data through the same channel.
+
+To speed up the processor operations, the processor includes some internal memory storage locations, called registers.
+
+The registers store data elements for processing without having to access the memory. A limited number of registers are built into the processor chip.
+
+## Processor Registers
+There are ten 32-bit and six 16-bit processor registers in IA-32 architecture. The registers are grouped into three categories −
+
+General registers,
+Control registers, and
+Segment registers.
+The general registers are further divided into the following groups −
+
+Data registers,
+Pointer registers, and
+Index registers.
+
+## Data Registers
+Four 32-bit data registers are used for arithmetic, logical, and other operations. These 32-bit registers can be used in three ways −
+
+As complete 32-bit data registers: EAX, EBX, ECX, EDX.
+
+Lower halves of the 32-bit registers can be used as four 16-bit data registers: AX, BX, CX and DX.
+
+Lower and higher halves of the above-mentioned four 16-bit registers can be used as eight 8-bit data registers: AH, AL, BH, BL, CH, CL, DH, and DL.
+
+![](img/register1.jpg)
+
+Some of these data registers have specific use in arithmetical operations.
+
+**AX is the primary accumulator**; it is used in input/output and most arithmetic instructions. For example, in multiplication operation, one operand is stored in EAX or AX or AL register according to the size of the operand.
+
+**BX is known as the base register**, as it could be used in indexed addressing.
+
+**CX is known as the count register**, as the ECX, CX registers store the loop count in iterative operations.
+
+**DX is known as the data register**. It is also used in input/output operations. It is also used with AX register along with DX for multiply and divide operations involving large values.
+
+## Pointer Registers
+The pointer registers are 32-bit EIP, ESP, and EBP registers and corresponding 16-bit right portions IP, SP, and BP. There are three categories of pointer registers −
+
+**Instruction Pointer (IP)** − The 16-bit IP register stores the offset address of the next instruction to be executed. IP in association with the CS register (as CS:IP) gives the complete address of the current instruction in the code segment.
+
+**Stack Pointer (SP)** − The 16-bit SP register provides the offset value within the program stack. SP in association with the SS register (SS:SP) refers to be current position of data or address within the program stack.
+
+**Base Pointer (BP)** − The 16-bit BP register mainly helps in referencing the parameter variables passed to a subroutine. The address in SS register is combined with the offset in BP to get the location of the parameter. BP can also be combined with DI and SI as base register for special addressing.
+
+![](img/register3.jpg)
+
+## Index Registers
+The 32-bit index registers, ESI and EDI, and their 16-bit rightmost portions. SI and DI, are used for indexed addressing and sometimes used in addition and subtraction. There are two sets of index pointers −
+
+- **Source Index (SI)** − It is used as source index for string operations.
+
+- **Destination Index (DI)** − It is used as destination index for string operations.
+
+![](img/register2.jpg)
+
+## Control Registers
+The 32-bit instruction pointer register and the 32-bit flags register combined are considered as the control registers.
+
+Many instructions involve comparisons and mathematical calculations and change the status of the flags and some other conditional instructions test the value of these status flags to take the control flow to other location.
+
+The common flag bits are:
+
+**Overflow Flag (OF)** − It indicates the overflow of a high-order bit (leftmost bit) of data after a signed arithmetic operation.
+
+**Direction Flag (DF)** − It determines left or right direction for moving or comparing string data. When the DF value is 0, the string operation takes left-to-right direction and when the value is set to 1, the string operation takes right-to-left direction.
+
+**Interrupt Flag (IF)** − It determines whether the external interrupts like keyboard entry, etc., are to be ignored or processed. It disables the external interrupt when the value is 0 and enables interrupts when set to 1.
+
+**Trap Flag (TF)** − It allows setting the operation of the processor in single-step mode. The DEBUG program we used sets the trap flag, so we could step through the execution one instruction at a time.
+
+**Sign Flag (SF)** − It shows the sign of the result of an arithmetic operation. This flag is set according to the sign of a data item following the arithmetic operation. The sign is indicated by the high-order of leftmost bit. A positive result clears the value of SF to 0 and negative result sets it to 1.
+
+**Zero Flag (ZF)** − It indicates the result of an arithmetic or comparison operation. A nonzero result clears the zero flag to 0, and a zero result sets it to 1.
+
+**Auxiliary Carry Flag (AF)** − It contains the carry from bit 3 to bit 4 following an arithmetic operation; used for specialized arithmetic. The AF is set when a 1-byte arithmetic operation causes a carry from bit 3 into bit 4.
+
+**Parity Flag (PF)** − It indicates the total number of 1-bits in the result obtained from an arithmetic operation. An even number of 1-bits clears the parity flag to 0 and an odd number of 1-bits sets the parity flag to 1.
+
+**Carry Flag (CF)** − It contains the carry of 0 or 1 from a high-order bit (leftmost) after an arithmetic operation. It also stores the contents of last bit of a shift or rotate operation.
+
+The following table indicates the position of flag bits in the 16-bit Flags register:
+```
+Flag:					O	D	I	T	S	Z		A		P		C
+Bit no:	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
+```
+
+## Segment Registers
+Segments are specific areas defined in a program for containing data, code and stack. There are three main segments −
+
+**Code Segment** − It contains all the instructions to be executed. A 16-bit Code Segment register or CS register stores the starting address of the code segment.
+
+**Data Segment** − It contains data, constants and work areas. A 16-bit Data Segment register or DS register stores the starting address of the data segment.
+
+**Stack Segment** − It contains data and return addresses of procedures or subroutines. It is implemented as a 'stack' data structure. The Stack Segment register or SS register stores the starting address of the stack.
+
+Apart from the DS, CS and SS registers, there are other extra segment registers - ES (extra segment), FS and GS, which provide additional segments for storing data.
+
+In assembly programming, a program needs to access the memory locations. All memory locations within a segment are relative to the starting address of the segment. A segment begins in an address evenly divisible by 16 or hexadecimal 10. So, the rightmost hex digit in all such memory addresses is 0, which is not generally stored in the segment registers.
+
+The segment registers stores the starting addresses of a segment. To get the exact location of data or instruction within a segment, an offset value (or displacement) is required. To reference any memory location in a segment, the processor combines the segment address in the segment register with the offset value of the location.
+
+# System Calls
+You can make use of Linux system calls in your assembly programs. You need to take the following steps for using Linux system calls in your program −
+
+Put the system call number in the EAX register.
+Store the arguments to the system call in the registers EBX, ECX, etc.
+Call the relevant interrupt (80h).
+The result is usually returned in the EAX register.
+There are six registers that store the arguments of the system call used. These are the EBX, ECX, EDX, ESI, EDI, and EBP. These registers take the consecutive arguments, starting with the EBX register. If there are more than six arguments, then the memory location of the first argument is stored in the EBX register.
+
+The following code snippet shows the use of the system call sys_exit −
+```
+mov	eax,1		; system call number (sys_exit)
+int	0x80		; call kernel
+The following code snippet shows the use of the system call sys_write −
+
+mov	edx,4		; message length
+mov	ecx,msg		; message to write
+mov	ebx,1		; file descriptor (stdout)
+mov	eax,4		; system call number (sys_write)
+int	0x80		; call kernel
+All the syscalls are listed in /usr/include/asm/unistd.h, together with their numbers (the value to put in EAX before you call int 80h).
+```
+The following table shows some of the system calls used in this tutorial −
+```
+%eax	Name	    %ebx	        %ecx	        %edx	%esx	%edi
+1	    sys_exit	int             -	            -	    -	    -
+2	    sys_fork	struct pt_regs	-	            -	    -	    -
+3	    sys_read	unsigned int	char *	        size_t	-	    -
+4	    sys_write	unsigned int	const char *	size_t	-	    -
+5	    sys_open	const char *	int	            int	    -	    -
+6	    sys_close	unsigned int	-	            -	    -	    -
+```
+
+# Addressing Modes
+Most assembly language instructions require operands to be processed. An operand address provides the location, where the data to be processed is stored. Some instructions do not require an operand, whereas some other instructions may require one, two, or three operands.
+
+When an instruction requires two operands, the first operand is generally the destination, which contains data in a register or memory location and the second operand is the source. Source contains either the data to be delivered (immediate addressing) or the address (in register or memory) of the data. Generally, the source data remains unaltered after the operation.
+
+The three basic modes of addressing are −
+
+- Register addressing
+- Immediate addressing
+- Memory addressing
+
+## Register Addressing
+In this addressing mode, a register contains the operand. Depending upon the instruction, the register may be the first operand, the second operand or both.
+
+For example,
+```nasm
+MOV DX, TAX_RATE   ; Register in first operand
+MOV COUNT, CX	   ; Register in second operand
+MOV EAX, EBX	   ; Both the operands are in registers
+```
+As processing data between registers does not involve memory, it provides fastest processing of data.
+
+## Immediate Addressing
+An immediate operand has a constant value or an expression. When an instruction with two operands uses immediate addressing, the first operand may be a register or memory location, and the second operand is an immediate constant. The first operand defines the length of the data.
+
+For example,
+```nasm
+BYTE_VALUE  DB  150    ; A byte value is defined
+WORD_VALUE  DW  300    ; A word value is defined
+ADD  BYTE_VALUE, 65    ; An immediate operand 65 is added
+MOV  AX, 45H           ; Immediate constant 45H is transferred to AX
+```
+
+## Direct Memory Addressing
+When operands are specified in memory addressing mode, direct access to main memory, usually to the data segment, is required. This way of addressing results in slower processing of data. To locate the exact location of data in memory, we need the segment start address, which is typically found in the DS register and an offset value. This offset value is also called effective address.
+
+In direct addressing mode, the offset value is specified directly as part of the instruction, usually indicated by the variable name. The assembler calculates the offset value and maintains a symbol table, which stores the offset values of all the variables used in the program.
+
+In direct memory addressing, one of the operands refers to a memory location and the other operand references a register.
+
+For example,
+```nasm
+ADD	BYTE_VALUE, DL	; Adds the register in the memory location
+MOV	BX, WORD_VALUE	; Operand from the memory is added to register
+```
 
 #
 
