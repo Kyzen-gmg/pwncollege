@@ -21,7 +21,7 @@ unsigned long    8 bytes                              0 to 18446744073709551615
 ```
 
 ## Exact size on a platform
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -56,7 +56,7 @@ double	        8 byte	        2.3E-308 to 1.7E+308	15 decimal places
 long double	    10 byte	        3.4E-4932 to 1.1E+4932	19 decimal places
 
 ## Exact size on a platform
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -98,7 +98,7 @@ A storage class defines the scope (visibility) and life-time of variables and/or
 
 ## auto
 Default storage class for all local variables. 'auto' can only be used within functions, i.e., local variables.
-```
+```c
 {
     int mount;
     auto int month;
@@ -107,7 +107,7 @@ Default storage class for all local variables. 'auto' can only be used within fu
 
 ## register
 The register storage class is used to define local vars that should be stored in a reg instead of RAM. This means that the variable has a maximum size equal to the reg size (usually one word) and can't have the unary '&' operator applied to it (as it does not have a mem location).
-```
+```c
 {
     register int miles;
 }
@@ -129,7 +129,7 @@ The extern modifier is most commonly used when there are two or more files shari
 
 
 **First File: main.c**
-```
+```c
 #include <stdio.h>
  
 int count ;
@@ -141,7 +141,7 @@ main() {
 }
 ```
 **Second File: support.c**
-```
+```c
 #include <stdio.h>
  
 extern int count;
@@ -308,7 +308,7 @@ Sr.No.	        Statement & Description
 A switch statement allows a variable to be tested for equality against a list of values. Each value is called a case, and the variable being switched on is checked for each switch case.
 
 The syntax for a switch statement in C programming language is as follows −
-```
+```c
 switch(expression) {
 
    case constant-expression  :
@@ -375,7 +375,7 @@ Sr.No.	        Loop Type & Description
 A while loop in C programming repeatedly executes a target statement as long as a given condition is true.
 
 The syntax of a while loop in C programming language is −
-```
+```c
 while(condition) {
 statement(s);
 }
@@ -391,7 +391,7 @@ When the condition becomes false, the program control passes to the line immedia
 A for loop is a repetition control structure that allows you to efficiently write a loop that needs to execute a specific number of times.
 
 The syntax of a for loop in C programming language is −
-```
+```c
 for ( init; condition; increment ) {
 statement(s);
 }
@@ -415,7 +415,7 @@ Unlike for and while loops, which test the loop condition at the top of the loop
 A do...while loop is similar to a while loop, except the fact that it is guaranteed to execute at least one time.
 
 The syntax of a do...while loop in C programming language is −
-```
+```c
 do {
 statement(s);
 } while( condition );
@@ -430,7 +430,7 @@ If the condition is true, the flow of control jumps back up to do, and the state
 C programming allows to use one loop inside another loop. The following section shows a few examples to illustrate the concept.
 
 The syntax for a nested for loop statement in C is as follows −
-```
+```c
 for ( init; condition; increment ) {
 
 for ( init; condition; increment ) {
@@ -440,7 +440,7 @@ statement(s);
 }
 ```
 The syntax for a nested while loop statement in C programming language is as follows −
-```
+```c
 while(condition) {
 
 while(condition) {
@@ -450,7 +450,7 @@ statement(s);
 }
 ```
 The syntax for a nested do...while loop statement in C programming language is as follows −
-```
+```c
 do {
 statement(s);
 
@@ -472,7 +472,7 @@ It can be used to terminate a case in the switch statement (covered in the next 
 If you are using nested loops, the break statement will stop the execution of the innermost loop and start executing the next line of code after the block.
 
 The syntax for a break; statement in C is as follows −
-```
+```c
 break;
 ```
 ### Flow Diagram
@@ -484,7 +484,7 @@ The continue statement in C programming works somewhat like the break statement.
 For the for loop, continue statement causes the conditional test and increment portions of the loop to execute. For the while and do...while loops, continue statement causes the program control to pass to the conditional tests.
 
 The syntax for a continue statement in C is as follows −
-```
+```c
 continue;
 ```
 ### Flow Diagram
@@ -496,7 +496,7 @@ A goto statement in C programming provides an unconditional jump from the 'goto'
 NOTE − Use of goto statement is highly discouraged in any programming language because it makes difficult to trace the control flow of a program, making the program hard to understand and hard to modify. Any program that uses a goto can be rewritten to avoid them.
 
 The syntax for a goto statement in C is as follows −
-```
+```c
 goto label;
 ..
 .
@@ -509,7 +509,7 @@ Here label can be any plain text except C keyword and it can be set anywhere in 
 
 # The Infinite Loop
 A loop becomes an infinite loop if a condition never becomes false. The for loop is traditionally used for this purpose. Since none of the three expressions that form the 'for' loop are required, you can make an endless loop by leaving the conditional expression empty.
-```
+```c
 #include <stdio.h>
  
 int main () {
@@ -538,7 +538,7 @@ A function can also be referred as a method or a sub-routine or a procedure, etc
 
 ## Defining a Function
 The general form of a function definition in C programming language is as follows −
-```
+```c
 return_type function_name( parameter list ) {
    body of the function
 }
@@ -555,7 +555,7 @@ Function Body − The function body contains a collection of statements that def
 
 ### Example
 Given below is the source code for a function called max(). This function takes two parameters num1 and num2 and returns the maximum value between the two −
-```
+```c
 /* function returning the max between two numbers */
 int max(int num1, int num2) {
 
@@ -592,7 +592,7 @@ While creating a C function, you give a definition of what the function has to d
 When a program calls a function, the program control is transferred to the called function. A called function performs a defined task and when its return statement is executed or when its function-ending closing brace is reached, it returns the program control back to the main program.
 
 To call a function, you simply need to pass the required parameters along with the function name, and if the function returns a value, then you can store the returned value. For example −
-```
+```c
 #include <stdio.h>
  
 /* function declaration */
@@ -648,7 +648,7 @@ The call by value method of passing arguments to a function copies the actual va
 
 By default, C programming uses call by value to pass arguments. In general, it means the code within a function cannot alter the arguments used to call the function. Consider the function swap() definition as follows.
 
-```
+```c
 /* function definition to swap the values */
 void swap(int x, int y) {
 
@@ -663,7 +663,7 @@ void swap(int x, int y) {
 ```
 Now, let us call the function swap() by passing actual values as in the following example −
 
-```
+```c
 #include <stdio.h>
  
 /* function declaration */
@@ -710,7 +710,7 @@ It shows that there are no changes in the values, though they had been changed i
 The call by reference method of passing arguments to a function copies the address of an argument into the formal parameter. Inside the function, the address is used to access the actual argument used in the call. It means the changes made to the parameter affect the passed argument.
 
 To pass a value by reference, argument pointers are passed to the functions just like any other value. So accordingly you need to declare the function parameters as pointer types as in the following function swap(), which exchanges the values of the two integer variables pointed to, by their arguments.
-```
+```c
 /* function definition to swap the values */
 void swap(int *x, int *y) {
 
@@ -724,7 +724,7 @@ return;
 ```
 Let us now call the function swap() by passing values by reference as in the following example −
 
-```
+```c
 #include <stdio.h>
 
 int main () {
@@ -777,7 +777,7 @@ Let us understand what are local and global variables, and formal parameters.
 
 ## Local Variables
 Variables that are declared inside a function or block are called local variables. They can be used only by statements that are inside that function or block of code. Local variables are not known to functions outside their own. The following example shows how local variables are used. Here all the variables a, b, and c are local to main() function.
-```
+```c
 #include <stdio.h>
  
 int main () {
@@ -801,7 +801,7 @@ int main () {
 Global variables are defined outside a function, usually on top of the program. Global variables hold their values throughout the lifetime of your program and they can be accessed inside any of the functions defined for the program.
 
 A global variable can be accessed by any function. That is, a global variable is available for use throughout your entire program after its declaration. The following program show how global variables are used in a program.
-```
+```c
 #include <stdio.h>
  
 /* global variable declaration */
@@ -824,7 +824,7 @@ int main () {
 ```
 A program can have same name for local and global variables but the value of local variable inside a function will take preference. Here is an example −
 
-```
+```c
 #include <stdio.h>
  
 /* global variable declaration */
@@ -848,7 +848,7 @@ value of g = 10
 ## Formal Parameters
 Formal parameters, are treated as local variables with-in a function and they take precedence over global variables. Following is an example −
 
-```
+```c
 #include <stdio.h>
  
 /* global variable declaration */
@@ -908,11 +908,11 @@ All arrays consist of contiguous memory locations. The lowest address correspond
 
 ## Declaring Arrays
 To declare an array in C, a programmer specifies the type of the elements and the number of elements required by an array as follows −
-```
+```c
 type arrayName [ arraySize ];
 ```
 This is called a single-dimensional array. The arraySize must be an integer constant greater than zero and type can be any valid C data type. For example, to declare a 10-element array called balance of type double, use this statement −
-```
+```c
 double balance[10];
 ```
 Here *balance* is a variable array which is sufficient to hold up to 10 double numbers.
@@ -920,17 +920,17 @@ Here *balance* is a variable array which is sufficient to hold up to 10 double n
 ## Initializing Arrays
 
 You can initialize an array in C either one by one or using a single statement as follows −
-```
+```c
 double balance[5] = {1000.0, 2.0, 3.4, 7.0, 50.0};
 ```
 The number of values between braces { } cannot be larger than the number of elements that we declare for the array between square brackets [ ].
 
 If you omit the size of the array, an array just big enough to hold the initialization is created. Therefore, if you write −
-```
+```c
 double balance[] = {1000.0, 2.0, 3.4, 7.0, 50.0};
 ```
 You will create exactly the same array as you did in the previous example. Following is an example to assign a single element of the array −
-```
+```c
 balance[4] = 50.0;
 ```
 The above statement assigns the 5th element in the array with a value of 50.0. All arrays have 0 as the index of their first element which is also called the base index and the last index of an array will be total size of the array minus 1. Shown below is the pictorial representation of the array we discussed above −
@@ -941,11 +941,11 @@ The above statement assigns the 5th element in the array with a value of 50.0. A
 Accessing Array Elements
 
 An element is accessed by indexing the array name. This is done by placing the index of the element within square brackets after the name of the array. For example −
-```
+```c
 double salary = balance[9];
 ```
 The above statement will take the 10th element from the array and assign the value to salary variable. The following example Shows how to use all the three above mentioned concepts viz. declaration, assignment, and accessing arrays −
-```
+```c
 #include <stdio.h>
  
 int main () {
@@ -986,18 +986,18 @@ Arrays are important to C and should need a lot more attention. The following im
 
 ## Multi-dimensional Arrays in C
 C programming language allows multidimensional arrays. Here is the general form of a multidimensional array declaration −
-```
+```c
 type name[size1][size2]...[sizeN];
 ```
 For example, the following declaration creates a three dimensional integer array −
-```
+```c
 int threedim[5][10][4];
 ```
 
 ### Two-dimensional Arrays
 
 The simplest form of multidimensional array is the two-dimensional array. A two-dimensional array is, in essence, a list of one-dimensional arrays. To declare a two-dimensional integer array of size [x][y], you would write something as follows −
-```
+```c
 type arrayName [ x ][ y ];
 ```
 Where **type** can be any valid C data type and **arrayName** will be a valid C identifier. A two-dimensional array can be considered as a table which will have x number of rows and y number of columns. A two-dimensional array **a**, which contains three rows and four columns can be shown as follows −
@@ -1008,7 +1008,7 @@ Thus, every element in the array a is identified by an element name of the form 
 
 ### Initializing Two-Dimensional Arrays
 Multidimensional arrays may be initialized by specifying bracketed values for each row. Following is an array with 3 rows and each row has 4 columns.
-```
+```c
 int a[3][4] = {  
    {0, 1, 2, 3} ,   /*  initializers for row indexed by 0 */
    {4, 5, 6, 7} ,   /*  initializers for row indexed by 1 */
@@ -1016,18 +1016,18 @@ int a[3][4] = {
 };
 ```
 The nested braces, which indicate the intended row, are optional. The following initialization is equivalent to the previous example −
-```
+```c
 int a[3][4] = {0,1,2,3,4,5,6,7,8,9,10,11};
 ```
 
 ### Accessing Two-Dimensional Array Elements
 An element in a two-dimensional array is accessed by using the subscripts, i.e., row index and column index of the array. For example −
-```
+```c
 int val = a[2][3];
 ```
 The above statement will take the 4th element from the 3rd row of the array. You can verify it in the above figure. Let us check the following program where we have used a nested loop to handle a two-dimensional array −
-Live Demo
-```
+
+```c
 #include <stdio.h>
  
 int main () {
@@ -1048,7 +1048,7 @@ int main () {
 }
 ```
 When the above code is compiled and executed, it produces the following result −
-```
+```c
 a[0][0]: 0
 a[0][1]: 0
 a[1][0]: 1
@@ -1067,7 +1067,7 @@ If you want to pass a single-dimension array as an argument in a function, you w
 Way-1
 
 Formal parameters as a pointer −
-```
+```c
 void myFunction(int *param) {
    .
    .
@@ -1077,7 +1077,7 @@ void myFunction(int *param) {
 Way-2
 
 Formal parameters as a sized array −
-```
+```c
 void myFunction(int param[10]) {
    .
    .
@@ -1087,7 +1087,7 @@ void myFunction(int param[10]) {
 Way-3
 
 Formal parameters as an unsized array −
-```
+```c
 void myFunction(int param[]) {
    .
    .
@@ -1097,7 +1097,7 @@ void myFunction(int param[]) {
 Example
 
 Now, consider the following function, which takes an array as an argument along with another argument and based on the passed arguments, it returns the average of the numbers passed through the array as follows −
-```
+```c
 double getAverage(int arr[], int size) {
 
    int i;
@@ -1114,7 +1114,7 @@ double getAverage(int arr[], int size) {
 }
 ```
 Now, let us call the above function as follows −
-```
+```c
 #include <stdio.h>
  
 /* function declaration */
@@ -1145,7 +1145,7 @@ As you can see, the length of the array doesn't matter as far as the function is
 C programming does not allow to return an entire array as an argument to a function. However, you can return a pointer to an array by specifying the array's name without an index.
 
 If you want to return a single-dimension array from a function, you would have to declare a function returning a pointer as in the following example −
-```
+```c
 int * myFunction() {
    .
    .
@@ -1155,7 +1155,7 @@ int * myFunction() {
 Second point to remember is that C does not advocate to return the address of a local variable to outside of the function, so you would have to define the local variable as static variable.
 
 Now, consider the following function which will generate 10 random numbers and return them using an array and call this function as follows −
-```
+```c
 #include <stdio.h>
 
 /* function to generate and return random numbers */
@@ -1219,11 +1219,11 @@ r[9] = 1990469526
 It is most likely that you would not understand this section until you are through with the chapter 'Pointers'.
 
 Assuming you have some understanding of pointers in C, let us start: An array name is a constant pointer to the first element of the array. Therefore, in the declaration −
-```
+```c
 double balance[50];
 ```
 balance is a pointer to &balance[0], which is the address of the first element of the array balance. Thus, the following program fragment assigns p as the address of the first element of balance −
-```
+```c
 double *p;
 double balance[10];
 
@@ -1232,7 +1232,7 @@ p = balance;
 It is legal to use array names as constant pointers, and vice versa. Therefore, *(balance + 4) is a legitimate way of accessing the data at balance[4].
 
 Once you store the address of the first element in 'p', you can access the array elements using *p, *(p+1), *(p+2) and so on. Given below is the example to show all the concepts discussed above −
-```
+```c
 #include <stdio.h>
 
 int main () {
@@ -1281,7 +1281,7 @@ In the above example, p is a pointer to double, which means it can store the add
 Pointers in C are easy and fun to learn. Some C programming tasks are performed more easily with pointers, and other tasks, such as dynamic memory allocation, cannot be performed without using pointers. So it becomes necessary to learn pointers to become a perfect C programmer. Let's start learning them in simple and easy steps.
 
 As you know, every variable is a memory location and every memory location has its address defined which can be accessed using ampersand (&) operator, which denotes an address in memory. Consider the following example, which prints the address of the variables defined −
-```
+```c
 #include <stdio.h>
 
 int main () {
@@ -1319,7 +1319,7 @@ char   *ch     /* pointer to a character */
 ## How to Use Pointers?
 
 There are a few important operations, which we will do with the help of pointers very frequently. (a) We define a pointer variable, (b) assign the address of a variable to a pointer and (c) finally access the value at the address available in the pointer variable. This is done by using unary operator * that returns the value of the variable located at the address specified by its operand. The following example makes use of these operations −
-```
+```c
 #include <stdio.h>
 
 int main () {
@@ -1352,7 +1352,7 @@ Value of *ip variable: 20
 It is always a good practice to assign a NULL value to a pointer variable in case you do not have an exact address to be assigned. This is done at the time of variable declaration. A pointer that is assigned NULL is called a null pointer.
 
 The NULL pointer is a constant with a value of zero defined in several standard libraries. Consider the following program −
-```
+```c
 #include <stdio.h>
 
 int main () {
@@ -1375,6 +1375,7 @@ To check for a null pointer, you can use an 'if' statement as follows −
 if(ptr)     /* succeeds if p is not null */
 if(!ptr)    /* succeeds if p is null */
 ```
+
 # Pointers in Detail
 
 Pointers have many but easy concepts and they are very important to C programming. The following important pointer concepts should be clear to any C programmer −
@@ -1383,14 +1384,14 @@ Pointers have many but easy concepts and they are very important to C programmin
 A pointer in c is an address, which is a numeric value. Therefore, you can perform arithmetic operations on a pointer just as you can on a numeric value. There are four arithmetic operators that can be used on pointers: ++, --, +, and -
 
 To understand pointer arithmetic, let us consider that ptr is an integer pointer which points to the address 1000. Assuming 32-bit integers, let us perform the following arithmetic operation on the pointer −
-```
+```c
 ptr++
 ```
 After the above operation, the ptr will point to the location 1004 because each time ptr is incremented, it will point to the next integer location which is 4 bytes next to the current location. This operation will move the pointer to the next memory location without impacting the actual value at the memory location. If ptr points to a character whose address is 1000, then the above operation will point to the location 1001 because the next character will be available at 1001.
 Incrementing a Pointer
 
 We prefer using a pointer in our program instead of an array because the variable pointer can be incremented, unlike the array name which cannot be incremented because it is a constant pointer. The following program increments the variable pointer to access each succeeding element of the array −
-```
+```c
 #include <stdio.h>
 
 const int MAX = 3;
@@ -1427,7 +1428,7 @@ Value of var[2] = 200
 ### Decrementing a Pointer
 
 The same considerations apply to decrementing a pointer, which decreases its value by the number of bytes of its data type as shown below −
-```
+```c
 #include <stdio.h>
 
 const int MAX = 3;
@@ -1466,7 +1467,7 @@ Value of var[0] = 10
 Pointers may be compared by using relational operators, such as ==, <, and >. If p1 and p2 point to variables that are related to each other, such as elements of the same array, then p1 and p2 can be meaningfully compared.
 
 The following program modifies the previous example − one by incrementing the variable pointer so long as the address to which it points is either less than or equal to the address of the last element of the array, which is &var[MAX - 1] −
-```
+```c
 #include <stdio.h>
 
 const int MAX = 3;
@@ -1505,7 +1506,7 @@ Value of var[2] = 200
 
 ## C - Array of pointers
 Before we understand the concept of arrays of pointers, let us consider the following example, which uses an array of 3 integers −
-```
+```c
 #include <stdio.h>
  
 const int MAX = 3;
@@ -1533,7 +1534,7 @@ There may be a situation when we want to maintain an array, which can store poin
 int *ptr[MAX];
 ```
 It declares ptr as an array of MAX integer pointers. Thus, each element in ptr, holds a pointer to an int value. The following example uses three integers, which are stored in an array of pointers, as follows −
-```
+```c
 #include <stdio.h>
  
 const int MAX = 3;
@@ -1555,13 +1556,13 @@ int main () {
 }
 ```
 When the above code is compiled and executed, it produces the following result −
-```
+```c
 Value of var[0] = 10
 Value of var[1] = 100
 Value of var[2] = 200
 ```
 You can also use an array of pointers to character to store a list of strings as follows −
-```
+```c
 #include <stdio.h>
  
 const int MAX = 4;
@@ -1592,15 +1593,275 @@ Value of names[2] = Nuha Ali
 Value of names[3] = Sara Ali
 ```
 
-##
+## C - Pointer to Pointer
+A pointer to a pointer is a form of multiple indirection, or a chain of pointers. Normally, a pointer contains the address of a variable. When we define a pointer to a pointer, the first pointer contains the address of the second pointer, which points to the location that contains the actual value as shown below.
+![](img/c11.jpg)
 
-##
+A variable that is a pointer to a pointer must be declared as such. This is done by placing an additional asterisk in front of its name. For example, the following declaration declares a pointer to a pointer of type int −
+```c
+int **var;
+```
+When a target value is indirectly pointed to by a pointer to a pointer, accessing that value requires that the asterisk operator be applied twice, as is shown below in the example −
+```c
+#include <stdio.h>
+ 
+int main () {
 
-##
+   int  var;
+   int  *ptr;
+   int  **pptr;
+
+   var = 3000;
+
+   /* take the address of var */
+   ptr = &var;
+
+   /* take the address of ptr using address of operator & */
+   pptr = &ptr;
+
+   /* take the value using pptr */
+   printf("Value of var = %d\n", var );
+   printf("Value available at *ptr = %d\n", *ptr );
+   printf("Value available at **pptr = %d\n", **pptr);
+
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Value of var = 3000
+Value available at *ptr = 3000
+Value available at **pptr = 3000
+```
+
+## Passing pointers to functions in C
+C programming allows passing a pointer to a function. To do so, simply declare the function parameter as a pointer type.
+
+Following is a simple example where we pass an unsigned long pointer to a function and change the value inside the function which reflects back in the calling function −
+```c
+#include <stdio.h>
+#include <time.h>
+ 
+void getSeconds(unsigned long *par);
+
+int main () {
+
+   unsigned long sec;
+   getSeconds( &sec );
+
+   /* print the actual value */
+   printf("Number of seconds: %ld\n", sec );
+
+   return 0;
+}
+
+void getSeconds(unsigned long *par) {
+   /* get the current number of seconds */
+   *par = time( NULL );
+   return;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Number of seconds :1294450468
+```
+The function, which can accept a pointer, can also accept an array as shown in the following example −
+```c
+#include <stdio.h>
+ 
+/* function declaration */
+double getAverage(int *arr, int size);
+ 
+int main () {
+
+   /* an int array with 5 elements */
+   int balance[5] = {1000, 2, 3, 17, 50};
+   double avg;
+ 
+   /* pass pointer to the array as an argument */
+   avg = getAverage( balance, 5 ) ;
+ 
+   /* output the returned value  */
+   printf("Average value is: %f\n", avg );
+   return 0;
+}
+
+double getAverage(int *arr, int size) {
+
+   int  i, sum = 0;       
+   double avg;          
+ 
+   for (i = 0; i < size; ++i) {
+      sum += arr[i];
+   }
+ 
+   avg = (double)sum / size;
+   return avg;
+}
+```
+When the above code is compiled together and executed, it produces the following result −
+```
+Average value is: 214.40000
+```
+
+## Return pointer from functions in C
+We have seen in the last chapter how C programming allows to return an array from a function. Similarly, C also allows to return a pointer from a function. To do so, you would have to declare a function returning a pointer as in the following example −
+```c
+int * myFunction() {
+   .
+   .
+   .
+}
+```
+Second point to remember is that, it is not a good idea to return the address of a local variable outside the function, so you would have to define the local variable as static variable.
+
+Now, consider the following function which will generate 10 random numbers and return them using an array name which represents a pointer, i.e., address of first array element.
+```c
+#include <stdio.h>
+#include <time.h>
+ 
+/* function to generate and return random numbers. */
+int * getRandom( ) {
+
+   static int  r[10];
+   int i;
+ 
+   /* set the seed */
+   srand( (unsigned)time( NULL ) );
+	
+   for ( i = 0; i < 10; ++i) {
+      r[i] = rand();
+      printf("%d\n", r[i] );
+   }
+ 
+   return r;
+}
+ 
+/* main function to call above defined function */
+int main () {
+
+   /* a pointer to an int */
+   int *p;
+   int i;
+
+   p = getRandom();
+	
+   for ( i = 0; i < 10; i++ ) {
+      printf("*(p + [%d]) : %d\n", i, *(p + i) );
+   }
+ 
+   return 0;
+}
+```
+When the above code is compiled together and executed, it produces the following result −
+```
+1523198053
+1187214107
+1108300978
+430494959
+1421301276
+930971084
+123250484
+106932140
+1604461820
+149169022
+*(p + [0]) : 1523198053
+*(p + [1]) : 1187214107
+*(p + [2]) : 1108300978
+*(p + [3]) : 430494959
+*(p + [4]) : 1421301276
+*(p + [5]) : 930971084
+*(p + [6]) : 123250484
+*(p + [7]) : 106932140
+*(p + [8]) : 1604461820
+*(p + [9]) : 149169022
+```
 
 
+# Strings
+Strings are actually one-dimensional array of characters terminated by a null character '\0'. Thus a null-terminated string contains the characters that comprise the string followed by a null.
 
-#
+The following declaration and initialization create a string consisting of the word "Hello". To hold the null character at the end of the array, the size of the character array containing the string is one more than the number of characters in the word "Hello."
+```c
+char greeting[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
+```
+If you follow the rule of array initialization then you can write the above statement as follows −
+```
+char greeting[] = "Hello";
+```
+Following is the memory presentation of the above defined string in C/C++ −
+
+![](img/c12.jpg)
+
+Actually, you do not place the null character at the end of a string constant. The C compiler automatically places the '\0' at the end of the string when it initializes the array. Let us try to print the above mentioned string −
+```c
+#include <stdio.h>
+
+int main () {
+
+   char greeting[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
+   printf("Greeting message: %s\n", greeting );
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Greeting message: Hello
+```
+C supports a wide range of functions that manipulate null-terminated strings −
+```
+Sr.No. 	Function & Purpose
+1 	      strcpy(s1, s2);
+         Copies string s2 into string s1.
+
+2 	      strcat(s1, s2);
+         Concatenates string s2 onto the end of string s1.
+
+3 	      strlen(s1);
+         Returns the length of string s1.
+
+4 	      strcmp(s1, s2);
+         Returns 0 if s1 and s2 are the same; less than 0 if s1<s2; greater than 0 if s1>s2.
+
+5 	      strchr(s1, ch);
+         Returns a pointer to the first occurrence of character ch in string s1.
+
+6 	      strstr(s1, s2);
+         Returns a pointer to the first occurrence of string s2 in string s1.
+```
+The following example uses some of the above-mentioned functions −
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main () {
+
+   char str1[12] = "Hello";
+   char str2[12] = "World";
+   char str3[12];
+   int  len ;
+
+   /* copy str1 into str3 */
+   strcpy(str3, str1);
+   printf("strcpy( str3, str1) :  %s\n", str3 );
+
+   /* concatenates str1 and str2 */
+   strcat( str1, str2);
+   printf("strcat( str1, str2):   %s\n", str1 );
+
+   /* total lenghth of str1 after concatenation */
+   len = strlen(str1);
+   printf("strlen(str1) :  %d\n", len );
+
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+strcpy( str3, str1) :  Hello
+strcat( str1, str2):   HelloWorld
+strlen(str1) :  10
+```
 
 #
 
