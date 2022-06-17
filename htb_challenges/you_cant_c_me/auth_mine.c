@@ -8,8 +8,8 @@ int main() {
 
     printf("Welcome!\n");
 
-    input = (int*)malloc(sizeof(str1))
-
+//    input = (int*)malloc(sizeof(str1))
+    fgets(char str1, 21, stdin)
 
 
 }

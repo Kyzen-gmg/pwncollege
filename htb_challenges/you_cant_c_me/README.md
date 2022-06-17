@@ -90,9 +90,3 @@ https://r2wiki.readthedocs.io/en/latest/home/misc/cheatsheet/
 recreate the binary 'auth_mine.c'
 
 
-
-
-htb_chall.gpr
-htb_chall.lock
-htb_chall.lock~
-htb_chall.rep
