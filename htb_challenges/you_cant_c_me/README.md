@@ -11,7 +11,6 @@ HTB{wh00ps!_y0u_d1d_c_m3}
 ```
 
 # ltrace
-//
 ```
 //stripped
 └─# file auth               
@@ -49,11 +48,51 @@ printf("I said, you can't c me!\n"I said, you can't c me!
 ![](chef01.png)
 
 # IDA
+//set breakpoint before the loop
+
 ![](ida01.png)
 
+//stack shows [rbp+var_8] as 'this_is_the_password'
+
+![](ida02.png)
+
+//Loop adds '\n' or decimal 10 to string in [rbp+var_40] and assigns it to [rbp+var_8], afterwards the password is shown  
+//set breakpoint before the strcmp  
+//stack shows [rbp+var_8] as 'wh00ps!_y0u_d1d_c_m3'  
+
+![](ida03.png)
+
 # gdb
+//used pwndbg
+```
+gdb-pwndbg ./auth
+info functions          //binary is stripped
+r2                      //start radare2
+aa                      //analyze all
+afl
+s main                  //find main?
+pdf                     //print disassembled function
+```
 ![](gdb01.png)
 
+//set breakpoint
+b *0x00401241
+r
+
+//RSI shows the key
+
+![](gdb02.png)
 
 # Helpful Resources
-https://www.youtube.com/watch?v=opyxln4dlJs&list=PLeSXUd883dhhKcvS2RSN500Bz2BDeTgqy&index=2
+https://r2wiki.readthedocs.io/en/latest/home/misc/cheatsheet/
+
+# TODO
+recreate the binary 'auth_mine.c'
+
+
+
+
+htb_chall.gpr
+htb_chall.lock
+htb_chall.lock~
+htb_chall.rep
