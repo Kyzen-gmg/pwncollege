@@ -2,14 +2,6 @@ Raw notes
 
 # You Cant C Me
 
-## Key
-```
-└─# ./auth
-Welcome!
-wh00ps!_y0u_d1d_c_m3     
-HTB{wh00ps!_y0u_d1d_c_m3}
-```
-
 # ltrace
 ```
 //stripped
@@ -83,10 +75,18 @@ r
 
 ![](gdb02.png)
 
+## Key
+```
+└─# ./auth
+Welcome!
+wh00ps!_y0u_d1d_c_m3     
+HTB{wh00ps!_y0u_d1d_c_m3}
+```
+
+
 # Helpful Resources
 https://r2wiki.readthedocs.io/en/latest/home/misc/cheatsheet/
 
 # TODO
 recreate the binary 'auth_mine.c'
-
 

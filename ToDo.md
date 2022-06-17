@@ -3,6 +3,8 @@
 I see and I remember.
 I do and I understand." - Confucius
 
+## Challenges
+//Bat Computer - Read through the Assembly code and annotate/explain what's going on
 
 
 ## HackadayU
