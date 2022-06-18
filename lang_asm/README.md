@@ -342,6 +342,225 @@ ADD	BYTE_VALUE, DL	; Adds the register in the memory location
 MOV	BX, WORD_VALUE	; Operand from the memory is added to register
 ```
 
+# Variables
+NASM provides various define directives for reserving storage space for variables. The define assembler directive is used for allocation of storage space. It can be used to reserve as well as initialize one or more bytes.
+Allocating Storage Space for Initialized Data
+
+The syntax for storage allocation statement for initialized data is −
+```
+[variable-name]    define-directive    initial-value   [,initial-value]...
+```
+Where, variable-name is the identifier for each storage space. The assembler associates an offset value for each variable name defined in the data segment.
+
+There are five basic forms of the define directive −
+```
+Directive 	Purpose 	            Storage Space
+DB 	        Define Byte 	        allocates 1 byte
+DW 	        Define Word 	        allocates 2 bytes
+DD 	        Define Doubleword 	    allocates 4 bytes
+DQ 	        Define Quadword 	    allocates 8 bytes
+DT 	        Define Ten Bytes 	    allocates 10 bytes
+```
+Following are some examples of using define directives −
+```
+choice		    DB	'y'
+number		    DW	12345
+neg_number	    DW	-12345
+big_number	    DQ	123456789
+real_number1	DD	1.234
+real_number2	DQ	123.456
+```
+Please note that −
+
+    Each byte of character is stored as its ASCII value in hexadecimal.
+
+    Each decimal value is automatically converted to its 16-bit binary equivalent and stored as a hexadecimal number.
+
+    Processor uses the little-endian byte ordering.
+
+    Negative numbers are converted to its 2's complement representation.
+
+    Short and long floating-point numbers are represented using 32 or 64 bits, respectively.
+
+The following program shows the use of define directive −
+```nasm
+section .text
+   global _start          ;must be declared for linker (gcc)
+	
+_start:                   ;tell linker entry point
+   mov	edx,1		  ;message length
+   mov	ecx,choice        ;message to write
+   mov	ebx,1		  ;file descriptor (stdout)
+   mov	eax,4		  ;system call number (sys_write)
+   int	0x80		  ;call kernel
+
+   mov	eax,1		  ;system call number (sys_exit)
+   int	0x80		  ;call kernel
+
+section .data
+choice DB 'y'
+```
+When the above code is compiled and executed, it produces the following result −
+```
+y
+```
+
+## Allocating Storage Space for Uninitialized Data
+
+The reserve directives are used for reserving space for uninitialized data. The reserve directives take a single operand that specifies the number of units of space to be reserved. Each define directive has a related reserve directive.
+
+There are five basic forms of the reserve directive −
+```
+Directive 	Purpose
+RESB 	    Reserve a Byte
+RESW 	    Reserve a Word
+RESD 	    Reserve a Doubleword
+RESQ 	    Reserve a Quadword
+REST 	    Reserve a Ten Bytes
+```
+
+## Multiple Definitions
+
+You can have multiple data definition statements in a program. For example −
+```nasm
+choice	   DB     'Y' 	    ;ASCII of y = 79H
+number1	   DW    12345 	    ;12345D = 3039H
+number2    DD   12345679    ;123456789D = 75BCD15H
+```
+The assembler allocates contiguous memory for multiple variable definitions.
+Multiple Initializations
+
+The TIMES directive allows multiple initializations to the same value. For example, an array named marks of size 9 can be defined and initialized to zero using the following statement −
+```nasm
+marks  TIMES  9  DW  0
+```
+The TIMES directive is useful in defining arrays and tables. The following program displays 9 asterisks on the screen −
+```nasm
+section	.text
+   global _start        ;must be declared for linker (ld)
+	
+_start:                 ;tell linker entry point
+   mov	edx,9		;message length
+   mov	ecx, stars	;message to write
+   mov	ebx,1		;file descriptor (stdout)
+   mov	eax,4		;system call number (sys_write)
+   int	0x80		;call kernel
+
+   mov	eax,1		;system call number (sys_exit)
+   int	0x80		;call kernel
+
+section	.data
+stars   times 9 db '*'
+```
+When the above code is compiled and executed, it produces the following result −
+```
+*********
+```
+
+# Constants
+There are several directives provided by NASM that define constants. We have already used the EQU directive in previous chapters. We will particularly discuss three directives −
+```nasm
+    EQU
+    %assign
+    %define
+```
+
+## The EQU Directive
+
+The EQU directive is used for defining constants. The syntax of the EQU directive is as follows −
+```
+CONSTANT_NAME EQU expression
+```
+For example,
+```
+TOTAL_STUDENTS equ 50
+```
+You can then use this constant value in your code, like −
+```nasm
+mov  ecx,  TOTAL_STUDENTS 
+cmp  eax,  TOTAL_STUDENTS
+```
+The operand of an EQU statement can be an expression −
+```nasm
+LENGTH equ 20
+WIDTH  equ 10
+AREA   equ length * width
+```
+Above code segment would define AREA as 200.
+
+## Example
+The following example illustrates the use of the EQU directive −
+```nasm
+SYS_EXIT  equ 1
+SYS_WRITE equ 4
+STDIN     equ 0
+STDOUT    equ 1
+section	 .text
+   global _start    ;must be declared for using gcc
+	
+_start:             ;tell linker entry point
+   mov eax, SYS_WRITE         
+   mov ebx, STDOUT         
+   mov ecx, msg1         
+   mov edx, len1 
+   int 0x80                
+	
+   mov eax, SYS_WRITE         
+   mov ebx, STDOUT         
+   mov ecx, msg2         
+   mov edx, len2 
+   int 0x80 
+	
+   mov eax, SYS_WRITE         
+   mov ebx, STDOUT         
+   mov ecx, msg3         
+   mov edx, len3 
+   int 0x80
+   
+   mov eax,SYS_EXIT    ;system call number (sys_exit)
+   int 0x80            ;call kernel
+
+section	 .data
+msg1 db	'Hello, programmers!',0xA,0xD 	
+len1 equ $ - msg1			
+
+msg2 db 'Welcome to the world of,', 0xA,0xD 
+len2 equ $ - msg2 
+
+msg3 db 'Linux assembly programming! '
+len3 equ $- msg3
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Hello, programmers!
+Welcome to the world of,
+Linux assembly programming!
+```
+
+# The %assign Directive
+The %assign directive can be used to define numeric constants like the EQU directive. This directive allows redefinition. For example, you may define the constant TOTAL as −
+```
+%assign TOTAL 10
+```
+Later in the code, you can redefine it as −
+```
+%assign  TOTAL  20
+```
+This directive is case-sensitive.
+The %define Directive
+
+The %define directive allows defining both numeric and string constants. This directive is similar to the #define in C. For example, you may define the constant PTR as −
+```
+%define PTR [EBP+4]
+```
+The above code replaces PTR by [EBP+4].
+
+This directive also allows redefinition and it is case-sensitive.
+
+#
+
+#
+
 #
 
 #
