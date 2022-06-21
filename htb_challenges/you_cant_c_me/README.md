@@ -90,3 +90,4 @@ https://r2wiki.readthedocs.io/en/latest/home/misc/cheatsheet/
 # TODO
 recreate the binary 'auth_mine.c'
 
+# TAGS: htb rev you_cant_c_me

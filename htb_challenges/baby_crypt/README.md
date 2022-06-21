@@ -1,11 +1,9 @@
 Raw notes in here.  
 Raw data in [data_dumps](data_dumps.md).
 
-# <Challenge Name>
+# Baby Crypt
 
 # Notes
-Bread Crumbs  
-[Sample link](#helpful-resources)
 
 # Ghidra
 
@@ -86,4 +84,4 @@ https://hackernoon.com/the-reason-xor-is-so-special-in-cryptography
     00101263 48 63 d2                  MOVSXD     RDX,EDX
 ```
 
-# TAGS: <Anything Unique> <technique> <defenses> <origin>  <category>
+# TAGS: xor relro pie canary htb rev baby_crypt

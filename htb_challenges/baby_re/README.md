@@ -31,3 +31,5 @@ HTB{B4BYH
 _R3V_TH4H
 TS_Ef       //anomaly, how?
 ```
+
+# TAGS: strcmp hardcoded htb rev baby_re
