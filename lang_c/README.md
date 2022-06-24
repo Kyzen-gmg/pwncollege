@@ -2001,7 +2001,102 @@ void printBook( struct Books book ) {
 }
 ```
 
-#
+## Pointers to Structures
+You can define pointers to structures in the same way as you define pointer to any other variable −
+```
+struct Books *struct_pointer;
+```
+Now, you can store the address of a structure variable in the above defined pointer variable. To find the address of a structure variable, place the '&'; operator before the structure's name as follows −
+```
+struct_pointer = &Book1;
+```
+To access the members of a structure using a pointer to that structure, you must use the → operator as follows −
+```
+struct_pointer->title;
+```
+Let us re-write the above example using structure pointer.
+```
+#include <stdio.h>
+#include <string.h>
+ 
+struct Books {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+};
+
+/* function declaration */
+void printBook( struct Books *book );
+int main( ) {
+
+   struct Books Book1;        /* Declare Book1 of type Book */
+   struct Books Book2;        /* Declare Book2 of type Book */
+ 
+   /* book 1 specification */
+   strcpy( Book1.title, "C Programming");
+   strcpy( Book1.author, "Nuha Ali"); 
+   strcpy( Book1.subject, "C Programming Tutorial");
+   Book1.book_id = 6495407;
+
+   /* book 2 specification */
+   strcpy( Book2.title, "Telecom Billing");
+   strcpy( Book2.author, "Zara Ali");
+   strcpy( Book2.subject, "Telecom Billing Tutorial");
+   Book2.book_id = 6495700;
+ 
+   /* print Book1 info by passing address of Book1 */
+   printBook( &Book1 );
+
+   /* print Book2 info by passing address of Book2 */
+   printBook( &Book2 );
+
+   return 0;
+}
+
+void printBook( struct Books *book ) {
+
+   printf( "Book title : %s\n", book->title);
+   printf( "Book author : %s\n", book->author);
+   printf( "Book subject : %s\n", book->subject);
+   printf( "Book book_id : %d\n", book->book_id);
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Book title : C Programming
+Book author : Nuha Ali
+Book subject : C Programming Tutorial
+Book book_id : 6495407
+Book title : Telecom Billing
+Book author : Zara Ali
+Book subject : Telecom Billing Tutorial
+Book book_id : 6495700
+```
+Bit Fields
+```
+Bit Fields allow the packing of data in a structure. This is especially useful when memory or data storage is at a premium. Typical examples include −
+
+    Packing several objects into a machine word. e.g. 1 bit flags can be compacted.
+d
+    Reading external file formats -- non-standard file formats could be read in, e.g., 9-bit integers.
+```
+C allows us to do this in a structure definition by putting :bit length after the variable. For example −
+```
+struct packed_struct {
+   unsigned int f1:1;
+   unsigned int f2:1;
+   unsigned int f3:1;
+   unsigned int f4:1;
+   unsigned int type:4;
+   unsigned int my_int:9;
+} pack;
+```
+Here, the packed_struct contains 6 members: Four 1 bit flags f1..f3, a 4-bit type and a 9-bit my_int.
+
+C automatically packs the above bit fields as compactly as possible, provided that the maximum length of the field is less than or equal to the integer word length of the computer. If this is not the case, then some compilers may allow memory overlap for the fields while others would store the next field in the next word.
+
+
 
 #
 
