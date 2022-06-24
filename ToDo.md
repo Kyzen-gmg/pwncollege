@@ -98,4 +98,84 @@ what is
 context vs context.update
 r.interactive vs r.close
 
-#
+# Resources
+https://exploit.education/phoenix/
+http://smashthestack.org/wargames
+
+- Discord - Reverse Engineering: https://discord.gg/PSfAu8N
+A fantastic community present on Discord is the Reverse Engineering. It has people from all over
+at all different positions and skill levels. I find it particularly useful for asking questions or just
+trying out challenges and stuff.
+ 
+- CTF TIME: https://ctftime.org
+A site that lists upcoming CTFs. This is a great way to keep track of CTFs to enter.
+ 
+- Corelan.be: https://www.corelan.be/index.php/articles/
+Specifically focusing on their 'Exploits' section to get familiar with a common process to
+approaching VR.
+-- https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/
+An amazing collection of articles that cover the different stages and writing up of exploits.
+ 
+- Microcorruption: https://microcorruption.com/
+An awesome practice CTF that encompasses taking on an unknown "device" progressing through
+increasingly difficult challenges.
+ 
+- Over the Wire: https://overthewire.org/wargames/
+These start off pretty easy and advance to some decent challenges, but they can be nice to fill in
+some gaps you may have.
+ 
+- Smash The Stack: http://smashthestack.org/wargames
+Similar to Over the Wire with the same concept of challenges of varying type.
+ 
+- "Smashing the stack in 2010": http://www.mgraziano.info/docs/stsi2010.pdf
+Great paper over modern buffer overflows on Linux and Windows systems.
+ 
+- "Reddit - netsec": https://www.reddit.com/r/netsec/
+Great subreddit that has frequent updates, writeups, and all-things security that lean more
+technical than typical articles.
+ 
+- "Reddit - ReverseEngineering": https://www.reddit.com/r/ReverseEngineering/
+Another technical subreddit with a focus on reverse engineering as a whole.
+ 
+- "Reddit - NetsecStudents": https://www.reddit.com/r/netsecstudents/
+This subreddit is geared more towards people that are trying to get familiar with
+netsec-related topics.
+ 
+- "Reddit - securityCTF": https://old.reddit.com/r/securityCTF/
+With CTFs being the main focus of this subreddit, you will find everything from
+people developing CTFs, working together to solve challenges, or solutions and
+approaches others took.
+ 
+- "Reddit - lowlevel": https://old.reddit.com/r/lowlevel/
+A subreddit focused on lowlevel aspects of computers. Not very active, but posts tend to
+be high quality.
+ 
+- "Reddit - Emulation": https://old.reddit.com/r/emulation/
+A subreddit focused on emulation of video game consoles. Similar to lowlevel, not a
+particularly security-focused community, but very into understanding computers of all
+types.
+ 
+Books:
+ 
+- "Hacking: The Art of Exploitation":
+  https://www.amazon.com/Hacking-Art-Exploitation-Jon-Erickson/dp/1593271441
+ 
+- "Gray Hat Hacking The Ethical Hackers Handbook":
+  https://www.amazon.com/Gray-Hacking-Ethical-Hackers-Handbook/dp/0071742557
+ 
+- “The Ghidra Book”
+https://nostarch.com/GhidraBook
+ 
+- "The IDA Pro Book: The Unofficial Guide to the World's Most Popular Disassembler":
+  https://www.amazon.com/The-IDA-Pro-Book-Disassembler/dp/1593272898
+This one is specific to IDA and is great if you're looking to grow more familiar with using IDA.
+ 
+- "The Art of Software Security Assessment: Identifying and Preventing Software Vulnerabilities":
+  https://www.amazon.com/Art-Software-Security-Assessment-Vulnerabilities/dp/0321444426/
+ 
+Bonus:
+phrack.org
+PoC || GTFO
+https://www.alchemistowl.org/pocorgtfo/
+How2Heap
+https://heap-exploitation.dhavalkapil.com/attacks/
