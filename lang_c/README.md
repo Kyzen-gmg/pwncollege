@@ -1952,7 +1952,7 @@ Book 2 book_id : 6495700
 ```
 ## Structures as Function Arguments
 You can pass a structure as a function argument in the same way as you pass any other variable or pointer.
-```
+```c
 #include <stdio.h>
 #include <string.h>
 
@@ -2015,7 +2015,7 @@ To access the members of a structure using a pointer to that structure, you must
 struct_pointer->title;
 ```
 Let us re-write the above example using structure pointer.
-```
+```c
 #include <stdio.h>
 #include <string.h>
  
@@ -2082,7 +2082,7 @@ d
     Reading external file formats -- non-standard file formats could be read in, e.g., 9-bit integers.
 ```
 C allows us to do this in a structure definition by putting :bit length after the variable. For example −
-```
+```c
 struct packed_struct {
    unsigned int f1:1;
    unsigned int f2:1;
@@ -2097,6 +2097,239 @@ Here, the packed_struct contains 6 members: Four 1 bit flags f1..f3, a 4-bit typ
 C automatically packs the above bit fields as compactly as possible, provided that the maximum length of the field is less than or equal to the integer word length of the computer. If this is not the case, then some compilers may allow memory overlap for the fields while others would store the next field in the next word.
 
 
+
+# Unions
+A union is a special data type available in C that allows to store different data types in the same memory location. You can define a union with many members, but only one member can contain a value at any given time. Unions provide an efficient way of using the same memory location for multiple-purpose.
+
+## Defining a Union
+
+To define a union, you must use the union statement in the same way as you did while defining a structure. The union statement defines a new data type with more than one member for your program. The format of the union statement is as follows −
+```c
+union [union tag] {
+   member definition;
+   member definition;
+   ...
+   member definition;
+} [one or more union variables];  
+```
+The union tag is optional and each member definition is a normal variable definition, such as int i; or float f; or any other valid variable definition. At the end of the union's definition, before the final semicolon, you can specify one or more union variables but it is optional. Here is the way you would define a union type named Data having three members i, f, and str −
+```c
+union Data {
+   int i;
+   float f;
+   char str[20];
+} data;  
+```
+Now, a variable of Data type can store an integer, a floating-point number, or a string of characters. It means a single variable, i.e., same memory location, can be used to store multiple types of data. You can use any built-in or user defined data types inside a union based on your requirement.
+
+The memory occupied by a union will be large enough to hold the largest member of the union. For example, in the above example, Data type will occupy 20 bytes of memory space because this is the maximum space which can be occupied by a character string. The following example displays the total memory size occupied by the above union −
+```c
+#include <stdio.h>
+#include <string.h>
+ 
+union Data {
+   int i;
+   float f;
+   char str[20];
+};
+ 
+int main( ) {
+
+   union Data data;        
+
+   printf( "Memory size occupied by data : %d\n", sizeof(data));
+
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Memory size occupied by data : 20
+```
+
+## Accessing Union Members
+
+To access any member of a union, we use the member access operator (.). The member access operator is coded as a period between the union variable name and the union member that we wish to access. You would use the keyword union to define variables of union type. The following example shows how to use unions in a program −
+```c
+#include <stdio.h>
+#include <string.h>
+ 
+union Data {
+   int i;
+   float f;
+   char str[20];
+};
+ 
+int main( ) {
+
+   union Data data;        
+
+   data.i = 10;
+   data.f = 220.5;
+   strcpy( data.str, "C Programming");
+
+   printf( "data.i : %d\n", data.i);
+   printf( "data.f : %f\n", data.f);
+   printf( "data.str : %s\n", data.str);
+
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+data.i : 1917853763
+data.f : 4122360580327794860452759994368.000000
+data.str : C Programming
+```
+Here, we can see that the values of i and f members of union got corrupted because the final value assigned to the variable has occupied the memory location and this is the reason that the value of str member is getting printed very well.
+
+Now let's look into the same example once again where we will use one variable at a time which is the main purpose of having unions −
+```c
+#include <stdio.h>
+#include <string.h>
+ 
+union Data {
+   int i;
+   float f;
+   char str[20];
+};
+ 
+int main( ) {
+
+   union Data data;        
+
+   data.i = 10;
+   printf( "data.i : %d\n", data.i);
+   
+   data.f = 220.5;
+   printf( "data.f : %f\n", data.f);
+   
+   strcpy( data.str, "C Programming");
+   printf( "data.str : %s\n", data.str);
+
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+data.i : 10
+data.f : 220.500000
+data.str : C Programming
+```
+Here, all the members are getting printed very well because one member is being used at a time.
+
+# Bit Fields
+Suppose your C program contains a number of TRUE/FALSE variables grouped in a structure called status, as follows −
+```c
+struct {
+   unsigned int widthValidated;
+   unsigned int heightValidated;
+} status;
+```
+This structure requires 8 bytes of memory space but in actual, we are going to store either 0 or 1 in each of the variables. The C programming language offers a better way to utilize the memory space in such situations.
+
+If you are using such variables inside a structure then you can define the width of a variable which tells the C compiler that you are going to use only those number of bytes. For example, the above structure can be re-written as follows −
+```c
+struct {
+   unsigned int widthValidated : 1;
+   unsigned int heightValidated : 1;
+} status;
+```
+The above structure requires 4 bytes of memory space for status variable, but only 2 bits will be used to store the values.
+
+If you will use up to 32 variables each one with a width of 1 bit, then also the status structure will use 4 bytes. However as soon as you have 33 variables, it will allocate the next slot of the memory and it will start using 8 bytes. Let us check the following example to understand the concept −
+```c
+#include <stdio.h>
+#include <string.h>
+
+/* define simple structure */
+struct {
+   unsigned int widthValidated;
+   unsigned int heightValidated;
+} status1;
+
+/* define a structure with bit fields */
+struct {
+   unsigned int widthValidated : 1;
+   unsigned int heightValidated : 1;
+} status2;
+ 
+int main( ) {
+   printf( "Memory size occupied by status1 : %d\n", sizeof(status1));
+   printf( "Memory size occupied by status2 : %d\n", sizeof(status2));
+   return 0;
+}
+
+When the above code is compiled and executed, it produces the following result −
+
+Memory size occupied by status1 : 8
+Memory size occupied by status2 : 4
+
+## Bit Field Declaration
+
+The declaration of a bit-field has the following form inside a structure −
+
+struct {
+   type [member_name] : width ;
+};
+```
+The following table describes the variable elements of a bit field −
+```
+Sr.No. 	Element & Description
+1 	      type     
+         An integer type that determines how a bit-field's value is interpreted. The type may be int, signed int, or unsigned int.
+
+2 	      member_name
+         The name of the bit-field.
+
+3 	      width
+         The number of bits in the bit-field. The width must be less than or equal to the bit width of the specified type.
+```
+The variables defined with a predefined width are called bit fields. A bit field can hold more than a single bit; for example, if you need a variable to store a value from 0 to 7, then you can define a bit field with a width of 3 bits as follows −
+```c
+struct {
+   unsigned int age : 3;
+} Age;
+```
+The above structure definition instructs the C compiler that the age variable is going to use only 3 bits to store the value. If you try to use more than 3 bits, then it will not allow you to do so. Let us try the following example −
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct {
+   unsigned int age : 3;
+} Age;
+
+int main( ) {
+
+   Age.age = 4;
+   printf( "Sizeof( Age ) : %d\n", sizeof(Age) );
+   printf( "Age.age : %d\n", Age.age );
+
+   Age.age = 7;
+   printf( "Age.age : %d\n", Age.age );
+
+   Age.age = 8;
+   printf( "Age.age : %d\n", Age.age );
+
+   return 0;
+}
+```
+When the above code is compiled it will compile with a warning and when executed, it produces the following result −
+```
+Sizeof( Age ) : 4
+Age.age : 4
+Age.age : 7
+Age.age : 0
+```
+
+#
+
+#
+
+#
+
+#
 
 #
 
