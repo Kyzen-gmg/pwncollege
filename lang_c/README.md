@@ -2952,7 +2952,395 @@ Value of sum : 116
 ```
 Here, the value of sum is 116 because the compiler is doing integer promotion and converting the value of 'c' to ASCII before performing the actual addition operation.
 
-#
+## Usual Arithmetic Conversion
+
+The usual arithmetic conversions are implicitly performed to cast their values to a common type. The compiler first performs integer promotion; if the operands still have different types, then they are converted to the type that appears highest in the following hierarchy −
+
+![](usual_arithmetic_conversion.png)
+
+The usual arithmetic conversions are not performed for the assignment operators, nor for the logical operators && and ||. Let us take the following example to understand the concept −
+```c
+#include <stdio.h>
+
+main() {
+
+   int  i = 17;
+   char c = 'c'; /* ascii value is 99 */
+   float sum;
+
+   sum = i + c;
+   printf("Value of sum : %f\n", sum );
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Value of sum : 116.000000
+```
+Here, it is simple to understand that first c gets converted to integer, but as the final value is double, usual arithmetic conversion applies and the compiler converts i and c into 'float' and adds them yielding a 'float' result.
+
+# Error Handling
+As such, C programming does not provide direct support for error handling but being a system programming language, it provides you access at lower level in the form of return values. Most of the C or even Unix function calls return -1 or NULL in case of any error and set an error code errno. It is set as a global variable and indicates an error occurred during any function call. You can find various error codes defined in <error.h> header file.
+
+So a C programmer can check the returned values and can take appropriate action depending on the return value. It is a good practice, to set errno to 0 at the time of initializing a program. A value of 0 indicates that there is no error in the program.
+
+## errno, perror(). and strerror()
+
+The C programming language provides perror() and strerror() functions which can be used to display the text message associated with errno.
+
+    The perror() function displays the string you pass to it, followed by a colon, a space, and then the textual representation of the current errno value.
+
+    The strerror() function, which returns a pointer to the textual representation of the current errno value.
+
+Let's try to simulate an error condition and try to open a file which does not exist. Here I'm using both the functions to show the usage, but you can use one or more ways of printing your errors. Second important point to note is that you should use stderr file stream to output all the errors.
+```c
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+extern int errno ;
+
+int main () {
+
+   FILE * pf;
+   int errnum;
+   pf = fopen ("unexist.txt", "rb");
+	
+   if (pf == NULL) {
+   
+      errnum = errno;
+      fprintf(stderr, "Value of errno: %d\n", errno);
+      perror("Error printed by perror");
+      fprintf(stderr, "Error opening file: %s\n", strerror( errnum ));
+   } else {
+   
+      fclose (pf);
+   }
+   
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Value of errno: 2
+Error printed by perror: No such file or directory
+Error opening file: No such file or directory
+```
+
+## Divide by Zero Errors
+
+It is a common problem that at the time of dividing any number, programmers do not check if a divisor is zero and finally it creates a runtime error.
+
+The code below fixes this by checking if the divisor is zero before dividing −
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+main() {
+
+   int dividend = 20;
+   int divisor = 0;
+   int quotient;
+ 
+   if( divisor == 0){
+      fprintf(stderr, "Division by zero! Exiting...\n");
+      exit(-1);
+   }
+   
+   quotient = dividend / divisor;
+   fprintf(stderr, "Value of quotient : %d\n", quotient );
+
+   exit(0);
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Division by zero! Exiting...
+
+```
+
+## Program Exit Status
+It is a common practice to exit with a value of EXIT_SUCCESS in case of program coming out after a successful operation. Here, EXIT_SUCCESS is a macro and it is defined as 0.
+
+If you have an error condition in your program and you are coming out then you should exit with a status EXIT_FAILURE which is defined as -1. So let's write above program as follows −
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+main() {
+
+   int dividend = 20;
+   int divisor = 5;
+   int quotient;
+ 
+   if( divisor == 0) {
+      fprintf(stderr, "Division by zero! Exiting...\n");
+      exit(EXIT_FAILURE);
+   }
+	
+   quotient = dividend / divisor;
+   fprintf(stderr, "Value of quotient : %d\n", quotient );
+
+   exit(EXIT_SUCCESS);
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Value of quotient : 4
+```
+
+# Recursion
+Recursion is the process of repeating items in a self-similar way. In programming languages, if a program allows you to call a function inside the same function, then it is called a recursive call of the function.
+```c
+void recursion() {
+   recursion(); /* function calls itself */
+}
+
+int main() {
+   recursion();
+}
+```
+The C programming language supports recursion, i.e., a function to call itself. But while using recursion, programmers need to be careful to define an exit condition from the function, otherwise it will go into an infinite loop.
+
+Recursive functions are very useful to solve many mathematical problems, such as calculating the factorial of a number, generating Fibonacci series, etc.
+
+## Number Factorial
+The following example calculates the factorial of a given number using a recursive function −
+```c
+#include <stdio.h>
+
+unsigned long long int factorial(unsigned int i) {
+
+   if(i <= 1) {
+      return 1;
+   }
+   return i * factorial(i - 1);
+}
+
+int  main() {
+   int i = 12;
+   printf("Factorial of %d is %d\n", i, factorial(i));
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```c
+Factorial of 12 is 479001600
+```
+
+## Fibonacci Series
+The following example generates the Fibonacci series for a given number using a recursive function −
+```c
+#include <stdio.h>
+
+int fibonacci(int i) {
+
+   if(i == 0) {
+      return 0;
+   }
+	
+   if(i == 1) {
+      return 1;
+   }
+   return fibonacci(i-1) + fibonacci(i-2);
+}
+
+int  main() {
+
+   int i;
+	
+   for (i = 0; i < 10; i++) {
+      printf("%d\t\n", fibonacci(i));
+   }
+	
+   return 0;
+}
+```
+When the above code is compiled and executed, it produces the following result −
+```
+0	
+1	
+1	
+2	
+3	
+5	
+8	
+13	
+21	
+34
+```
+
+# Variable Arguments
+Sometimes, you may come across a situation, when you want to have a function, which can take variable number of arguments, i.e., parameters, instead of predefined number of parameters. The C programming language provides a solution for this situation and you are allowed to define a function which can accept variable number of parameters based on your requirement. The following example shows the definition of such a function.
+```c
+int func(int, ... ) {
+   .
+   .
+   .
+}
+
+int main() {
+   func(1, 2, 3);
+   func(1, 2, 3, 4);
+}
+```
+It should be noted that the function func() has its last argument as ellipses, i.e. three dotes (...) and the one just before the ellipses is always an int which will represent the total number variable arguments passed. To use such functionality, you need to make use of stdarg.h header file which provides the functions and macros to implement the functionality of variable arguments and follow the given steps −
+
+    Define a function with its last parameter as ellipses and the one just before the ellipses is always an int which will represent the number of arguments.
+
+    Create a va_list type variable in the function definition. This type is defined in stdarg.h header file.
+
+    Use int parameter and va_start macro to initialize the va_list variable to an argument list. The macro va_start is defined in stdarg.h header file.
+
+    Use va_arg macro and va_list variable to access each item in argument list.
+
+    Use a macro va_end to clean up the memory assigned to va_list variable.
+
+Now let us follow the above steps and write down a simple function which can take the variable number of parameters and return their average −
+```c
+#include <stdio.h>
+#include <stdarg.h>
+
+double average(int num,...) {
+
+   va_list valist;
+   double sum = 0.0;
+   int i;
+
+   /* initialize valist for num number of arguments */
+   va_start(valist, num);
+
+   /* access all the arguments assigned to valist */
+   for (i = 0; i < num; i++) {
+      sum += va_arg(valist, int);
+   }
+	
+   /* clean memory reserved for valist */
+   va_end(valist);
+
+   return sum/num;
+}
+
+int main() {
+   printf("Average of 2, 3, 4, 5 = %f\n", average(4, 2,3,4,5));
+   printf("Average of 5, 10, 15 = %f\n", average(3, 5,10,15));
+}
+```
+When the above code is compiled and executed, it produces the following result. It should be noted that the function average() has been called twice and each time the first argument represents the total number of variable arguments being passed. Only ellipses will be used to pass variable number of arguments.
+```
+Average of 2, 3, 4, 5 = 3.500000
+Average of 5, 10, 15 = 10.000000
+```
+
+# Memory Management
+This chapter explains dynamic memory management in C. The C programming language provides several functions for memory allocation and management. These functions can be found in the <stdlib.h> header file.
+```
+Sr.No. 	Function & Description
+1 	      void *calloc(int num, int size);
+         This function allocates an array of num elements each of which size in bytes will be size.
+
+2 	      void free(void *address);
+         This function releases a block of memory block specified by address.
+
+3 	      void *malloc(size_t size);
+         This function allocates an array of num bytes and leave them uninitialized.
+
+4 	      void *realloc(void *address, int newsize);
+         This function re-allocates memory extending it upto newsize.
+```
+
+## Allocating Memory Dynamically
+
+While programming, if you are aware of the size of an array, then it is easy and you can define it as an array. For example, to store a name of any person, it can go up to a maximum of 100 characters, so you can define something as follows −
+```
+char name[100];
+```
+But now let us consider a situation where you have no idea about the length of the text you need to store, for example, you want to store a detailed description about a topic. Here we need to define a pointer to character without defining how much memory is required and later, based on requirement, we can allocate memory as shown in the below example −
+
+But now let us consider a situation where you have no idea about the length of the text you need to store, for example, you want to store a detailed description about a topic. Here we need to define a pointer to character without defining how much memory is required and later, based on requirement, we can allocate memory as shown in the below example −
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+
+   char name[100];
+   char *description;
+
+   strcpy(name, "Zara Ali");
+
+   /* allocate memory dynamically */
+   description = malloc( 200 * sizeof(char) );
+	
+   if( description == NULL ) {
+      fprintf(stderr, "Error - unable to allocate required memory\n");
+   } else {
+      strcpy( description, "Zara ali a DPS student in class 10th");
+   }
+   
+   printf("Name = %s\n", name );
+   printf("Description: %s\n", description );
+}
+```
+When the above code is compiled and executed, it produces the following result.
+```
+Name = Zara Ali
+Description: Zara ali a DPS student in class 10th
+```
+Same program can be written using calloc(); only thing is you need to replace malloc with calloc as follows −
+```
+calloc(200, sizeof(char));
+```
+So you have complete control and you can pass any size value while allocating memory, unlike arrays where once the size defined, you cannot change it.
+
+## Resizing and Releasing Memory
+
+When your program comes out, operating system automatically release all the memory allocated by your program but as a good practice when you are not in need of memory anymore then you should release that memory by calling the function free().
+
+Alternatively, you can increase or decrease the size of an allocated memory block by calling the function realloc(). Let us check the above program once again and make use of realloc() and free() functions −
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+
+   char name[100];
+   char *description;
+
+   strcpy(name, "Zara Ali");
+
+   /* allocate memory dynamically */
+   description = malloc( 30 * sizeof(char) );
+	
+   if( description == NULL ) {
+      fprintf(stderr, "Error - unable to allocate required memory\n");
+   } else {
+      strcpy( description, "Zara ali a DPS student.");
+   }
+	
+   /* suppose you want to store bigger description */
+   description = realloc( description, 100 * sizeof(char) );
+	
+   if( description == NULL ) {
+      fprintf(stderr, "Error - unable to allocate required memory\n");
+   } else {
+      strcat( description, "She is in class 10th");
+   }
+   
+   printf("Name = %s\n", name );
+   printf("Description: %s\n", description );
+
+   /* release memory using free() function */
+   free(description);
+}
+```
+When the above code is compiled and executed, it produces the following result.
+```
+Name = Zara Ali
+Description: Zara ali a DPS student.She is in class 10th
+```
+You can try the above example without re-allocating extra memory, and strcat() function will give an error due to lack of available memory in description.
 
 #
 
