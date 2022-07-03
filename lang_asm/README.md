@@ -927,7 +927,91 @@ The result is:
 4
 ```
 
-#
+# Logical Instructions
+The processor instruction set provides the instructions AND, OR, XOR, TEST, and NOT Boolean logic, which tests, sets, and clears the bits according to the need of the program.
+
+The format for these instructions −
+```
+Sr.No. 	Instruction 	Format
+1 	      AND 	         AND operand1, operand2
+2 	      OR 	         OR operand1, operand2
+3 	      XOR 	         XOR operand1, operand2
+4 	      TEST 	         TEST operand1, operand2
+5 	      NOT 	         NOT operand1
+```
+
+The first operand in all the cases could be either in register or in memory. The second operand could be either in register/memory or an immediate (constant) value. However, memory-to-memory operations are not possible. These instructions compare or match bits of the operands and set the CF, OF, PF, SF and ZF flags.
+The AND Instruction
+
+The AND instruction is used for supporting logical expressions by performing bitwise AND operation. The bitwise AND operation returns 1, if the matching bits from both the operands are 1, otherwise it returns 0. For example −
+```
+             Operand1: 	0101
+             Operand2: 	0011
+----------------------------
+After AND -> Operand1:	0001
+```
+The AND operation can be used for clearing one or more bits. For example, say the BL register contains 0011 1010. If you need to clear the high-order bits to zero, you AND it with 0FH.
+```nasm
+AND	BL,   0FH   ; This sets BL to 0000 1010
+```
+Let's take up another example. If you want to check whether a given number is odd or even, a simple test would be to check the least significant bit of the number. If this is 1, the number is odd, else the number is even.
+
+Assuming the number is in AL register, we can write −
+```nasm
+AND	AL, 01H     ; ANDing with 0000 0001
+JZ    EVEN_NUMBER
+```
+The following program illustrates this −
+```nasm
+section .text
+   global _start            ;must be declared for using gcc
+	
+_start:                     ;tell linker entry point
+   mov   ax,   8h           ;getting 8 in the ax 
+   and   ax, 1              ;and ax with 1
+   jz    evnn
+   mov   eax, 4             ;system call number (sys_write)
+   mov   ebx, 1             ;file descriptor (stdout)
+   mov   ecx, odd_msg       ;message to write
+   mov   edx, len2          ;length of message
+   int   0x80               ;call kernel
+   jmp   outprog
+
+evnn:   
+  
+   mov   ah,  09h
+   mov   eax, 4             ;system call number (sys_write)
+   mov   ebx, 1             ;file descriptor (stdout)
+   mov   ecx, even_msg      ;message to write
+   mov   edx, len1          ;length of message
+   int   0x80               ;call kernel
+
+outprog:
+
+   mov   eax,1              ;system call number (sys_exit)
+   int   0x80               ;call kernel
+
+section   .data
+even_msg  db  'Even Number!' ;message showing even number
+len1  equ  $ - even_msg 
+   
+odd_msg db  'Odd Number!'    ;message showing odd number
+len2  equ  $ - odd_msg
+```
+When the above code is compiled and executed, it produces the following result −
+```
+Even Number!
+```
+Change the value in the ax register with an odd digit, like −
+```nasm
+mov  ax, 9h                  ; getting 9 in the ax
+```
+The program would display:
+```
+Odd Number!
+```
+Similarly to clear the entire register you can AND it with 00H. 
+
 
 #
 
