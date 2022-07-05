@@ -1259,6 +1259,308 @@ The largest digit is:
 ```
 
 
+# Loops
+The JMP instruction can be used for implementing loops. For example, the following code snippet can be used for executing the loop-body 10 times.
+```nasm
+MOV	CL, 10
+L1:
+<LOOP-BODY>
+DEC	CL
+JNZ	L1
+```
+The processor instruction set, however, includes a group of loop instructions for implementing iteration. The basic LOOP instruction has the following syntax −
+```nasm
+LOOP 	label
+```
+Where, label is the target label that identifies the target instruction as in the jump instructions. The LOOP instruction assumes that the ECX register contains the loop count. When the loop instruction is executed, the ECX register is decremented and the control jumps to the target label, until the ECX register value, i.e., the counter reaches the value zero.
+
+The above code snippet could be written as −
+```nasm
+mov ECX,10
+l1:
+<loop body>
+loop l1
+```
+## Example
+The following program prints the number 1 to 9 on the screen −
+```nasm
+section	.text
+   global _start        ;must be declared for using gcc
+	
+_start:	                ;tell linker entry point
+   mov ecx,10
+   mov eax, '1'
+	
+l1:
+   mov [num], eax
+   mov eax, 4
+   mov ebx, 1
+   push ecx
+	
+   mov ecx, num        
+   mov edx, 1        
+   int 0x80
+	
+   mov eax, [num]
+   sub eax, '0'
+   inc eax
+   add eax, '0'
+   pop ecx
+   loop l1
+	
+   mov eax,1             ;system call number (sys_exit)
+   int 0x80              ;call kernel
+section	.bss
+num resb 1
+```
+When the above code is compiled and executed, it produces the following result −
+```nasm
+123456789:
+```
+
+# Numbers
+Numerical data is generally represented in binary system. Arithmetic instructions operate on binary data. When numbers are displayed on screen or entered from keyboard, they are in ASCII form.
+
+So far, we have converted this input data in ASCII form to binary for arithmetic calculations and converted the result back to binary. The following code shows this −
+```
+section	.text
+   global _start        ;must be declared for using gcc
+	
+_start:	                ;tell linker entry point
+   mov   eax, '3'
+   sub   eax, '0'
+	
+   mov   ebx, '4'
+   sub   ebx, '0'
+   add   eax, ebx
+   add   eax, '0'
+	
+   mov   [sum], eax
+   mov   ecx,msg	
+   mov   edx, len
+   mov   ebx,1	         ;file descriptor (stdout)
+   mov   eax,4	         ;system call number (sys_write)
+   int   0x80	         ;call kernel
+	
+   mov   ecx,sum
+   mov   edx, 1
+   mov   ebx,1	         ;file descriptor (stdout)
+   mov   eax,4	         ;system call number (sys_write)
+   int   0x80	         ;call kernel
+	
+   mov   eax,1	         ;system call number (sys_exit)
+   int   0x80	         ;call kernel
+	
+section .data
+msg db "The sum is:", 0xA,0xD 
+len equ $ - msg   
+segment .bss
+sum resb 1
+```
+When the above code is compiled and executed, it produces the following result −
+```
+The sum is:
+7
+```
+Such conversions, however, have an overhead, and assembly language programming allows processing numbers in a more efficient way, in the binary form. Decimal numbers can be represented in two forms −
+- ASCII form
+- BCD or Binary Coded Decimal form
+
+## ASCII Representation
+
+In ASCII representation, decimal numbers are stored as string of ASCII characters. For example, the decimal value 1234 is stored as −
+```
+31	32	33	34H
+```
+Where, 31H is ASCII value for 1, 32H is ASCII value for 2, and so on. There are four instructions for processing numbers in ASCII representation −
+- AAA − ASCII Adjust After Addition
+- AAS − ASCII Adjust After Subtraction
+- AAM − ASCII Adjust After Multiplication
+- AAD − ASCII Adjust Before Division
+
+These instructions do not take any operands and assume the required operand to be in the AL register.
+
+The following example uses the AAS instruction to demonstrate the concept −
+```
+section	.text
+   global _start        ;must be declared for using gcc
+	
+_start:	                ;tell linker entry point
+   sub     ah, ah
+   mov     al, '9'
+   sub     al, '3'
+   aas
+   or      al, 30h
+   mov     [res], ax
+	
+   mov	edx,len	        ;message length
+   mov	ecx,msg	        ;message to write
+   mov	ebx,1	        ;file descriptor (stdout)
+   mov	eax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	edx,1	        ;message length
+   mov	ecx,res	        ;message to write
+   mov	ebx,1	        ;file descriptor (stdout)
+   mov	eax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	eax,1	        ;system call number (sys_exit)
+   int	0x80	        ;call kernel
+	
+section	.data
+msg db 'The Result is:',0xa	
+len equ $ - msg			
+section .bss
+res resb 1  
+```
+When the above code is compiled and executed, it produces the following result −
+```
+The Result is:
+6
+```
+
+## BCD Representation
+There are two types of BCD representation −
+- Unpacked BCD representation
+- Packed BCD representation
+
+In unpacked BCD representation, each byte stores the binary equivalent of a decimal digit. For example, the number 1234 is stored as −
+```
+01	02	03	04H
+```
+There are two instructions for processing these numbers −
+- AAM − ASCII Adjust After Multiplication
+- AAD − ASCII Adjust Before Division
+
+The four ASCII adjust instructions, AAA, AAS, AAM, and AAD, can also be used with unpacked BCD representation. In packed BCD representation, each digit is stored using four bits. Two decimal digits are packed into a byte. For example, the number 1234 is stored as −
+```
+12	34H
+```
+There are two instructions for processing these numbers −
+- DAA − Decimal Adjust After Addition
+- DAS − decimal Adjust After Subtraction
+
+There is no support for multiplication and division in packed BCD representation.
+
+## Example
+The following program adds up two 5-digit decimal numbers and displays the sum. It uses the above concepts −
+```nasm
+section	.text
+   global _start        ;must be declared for using gcc
+
+_start:	                ;tell linker entry point
+
+   mov     esi, 4       ;pointing to the rightmost digit
+   mov     ecx, 5       ;num of digits
+   clc
+add_loop:  
+   mov 	al, [num1 + esi]
+   adc 	al, [num2 + esi]
+   aaa
+   pushf
+   or 	al, 30h
+   popf
+	
+   mov	[sum + esi], al
+   dec	esi
+   loop	add_loop
+	
+   mov	edx,len	        ;message length
+   mov	ecx,msg	        ;message to write
+   mov	ebx,1	        ;file descriptor (stdout)
+   mov	eax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	edx,5	        ;message length
+   mov	ecx,sum	        ;message to write
+   mov	ebx,1	        ;file descriptor (stdout)
+   mov	eax,4	        ;system call number (sys_write)
+   int	0x80	        ;call kernel
+	
+   mov	eax,1	        ;system call number (sys_exit)
+   int	0x80	        ;call kernel
+
+section	.data
+msg db 'The Sum is:',0xa	
+len equ $ - msg			
+num1 db '12345'
+num2 db '23456'
+sum db '     '
+```
+When the above code is compiled and executed, it produces the following result −
+```
+The Sum is:
+35801
+```
+
+# Strings
+We have already used variable length strings in our previous examples. The variable length strings can have as many characters as required. Generally, we specify the length of the string by either of the two ways −
+- Explicitly storing string length
+- Using a sentinel character
+
+We can store the string length explicitly by using the $ location counter symbol that represents the current value of the location counter. In the following example −
+```
+msg  db  'Hello, world!',0xa ;our dear string
+len  equ  $ - msg            ;length of our dear string
+```
+$ points to the byte after the last character of the string variable msg. Therefore, $-msg gives the length of the string. We can also write
+```
+msg db 'Hello, world!',0xa ;our dear string
+len equ 13                 ;length of our dear string
+```
+Alternatively, you can store strings with a trailing sentinel character to delimit a string instead of storing the string length explicitly. The sentinel character should be a special character that does not appear within a string.
+
+For example −
+```
+message DB 'I am loving it!', 0
+```
+
+## String Instruction
+Each string instruction may require a source operand, a destination operand or both. For 32-bit segments, string instructions use ESI and EDI registers to point to the source and destination operands, respectively.
+
+For 16-bit segments, however, the SI and the DI registers are used to point to the source and destination, respectively.
+
+There are five basic instructions for processing strings. They are −
+- MOVS − This instruction moves 1 Byte, Word or Doubleword of data from memory location to another.
+- LODS − This instruction loads from memory. If the operand is of one byte, it is loaded into the AL register, if the operand is one word, it is loaded into the AX register and a doubleword is loaded into the EAX register.
+- STOS − This instruction stores data from register (AL, AX, or EAX) to memory.
+- CMPS − This instruction compares two data items in memory. Data could be of a byte size, word or doubleword.
+- SCAS − This instruction compares the contents of a register (AL, AX or EAX) with the contents of an item in memory.
+
+Each of the above instruction has a byte, word, and doubleword version, and string instructions can be repeated by using a repetition prefix.
+
+These instructions use the ES:DI and DS:SI pair of registers, where DI and SI registers contain valid offset addresses that refers to bytes stored in memory. SI is normally associated with DS (data segment) and DI is always associated with ES (extra segment).
+
+The DS:SI (or ESI) and ES:DI (or EDI) registers point to the source and destination operands, respectively. The source operand is assumed to be at DS:SI (or ESI) and the destination operand at ES:DI (or EDI) in memory.
+
+For 16-bit addresses, the SI and DI registers are used, and for 32-bit addresses, the ESI and EDI registers are used.
+
+The following table provides various versions of string instructions and the assumed space of the operands.
+```
+Basic Instruction    Operands at    Byte Operation    Word Operation    Double word Operation
+MOVS                 ES:DI, DS:SI   MOVSB             MOVSW             MOVSD
+LODS                 AX, DS:SI      LODSB             LODSW             LODSD
+STOS                 ES:DI, AX      STOSB             STOSW             STOSD
+CMPS                 DS:SI, ES: DI  CMPSB             CMPSW             CMPSD
+SCAS                 ES:DI, AX      SCASB             SCASW             SCASD
+```
+
+## Repetition Prefixes
+The REP prefix, when set before a string instruction, for example - REP MOVSB, causes repetition of the instruction based on a counter placed at the CX register. REP executes the instruction, decreases CX by 1, and checks whether CX is zero. It repeats the instruction processing until CX is zero.
+
+The Direction Flag (DF) determines the direction of the operation.
+- Use CLD (Clear Direction Flag, DF = 0) to make the operation left to right.
+- Use STD (Set Direction Flag, DF = 1) to make the operation right to left.
+
+The REP prefix also has the following variations:
+- REP: It is the unconditional repeat. It repeats the operation until CX is zero.
+- REPE or REPZ: It is conditional repeat. It repeats the operation while the zero flag indicates equal/zero. It stops when the ZF indicates not equal/zero or when CX is zero.
+- REPNE or REPNZ: It is also conditional repeat. It repeats the operation while the zero flag indicates not equal/zero. It stops when the ZF indicates equal/zero or when CX is decremented to zero.
+
+
+#
+
 #
 
 #
